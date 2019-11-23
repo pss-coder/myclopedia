@@ -19,7 +19,6 @@
   },
   "devDependencies": {},
   "scripts": {
-    "start": "node app.js"
   },
   "author": "Pawandeep Singh",
   "license": "ISC"
