@@ -1,8 +1,8 @@
 //User model
 var mongoose = require('mongoose');
 //npm install -save bcrypt@1.0.3
-//TODO: FIX TO ALLOW LATEST VERSION
-var bcrypt = require('bcrypt');
+//TODO: FIX TO ALLOW LATEST VERSION -- done
+var bcrypt = require('bcryptjs');
 
 
 
@@ -30,11 +30,14 @@ var UserSchema = new mongoose.Schema({
  */
 function hashPassword(next){ 
     var user = this;
-    bcrypt.hash(user.password,10,function (err,hash){
-        if(err){return next(err)}
-        user.password = hash;
-        next();
-      })
+
+    bcrypt.genSalt(10, function(err, salt) {
+        bcrypt.hash(user.password, salt, function(err, hash) {
+            // Store hash in your password DB.
+            user.password = hash;
+            next();
+        });
+    });
  }
 
  /**
