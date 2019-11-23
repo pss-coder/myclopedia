@@ -1,0 +1,472 @@
+/* FILL ENTIRE WEB PAGE */
+html,body
+{
+    height:100%;
+    width: 100%;
+    margin:0;
+    color: #4A4A4A;
+    font-family: 'Roboto Mono',sans-serif;
+    outline-color: #4A4A4A;
+}
+
+/* MAKE CONTAINER FILL PARENT */
+/* SET TO FLEX */
+.container
+{
+  height:100%;
+  display:flex;
+  flex-direction:column;
+}
+
+a{
+    color: #4A4A4A;
+}
+
+::placeholder{
+    color: #4A4A4A;
+    font-size: 14px;
+}
+
+a:hover{
+    color: black;
+}
+
+
+
+.top>button,footer>a{
+    margin-right: 15px;
+}
+
+.open-login-modal-button{
+    font-family: 'Roboto Mono',sans-serif;
+    background: none;
+    color: #4A4A4A;
+    border:none;
+    text-decoration: underline;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.open-login-modal-button:hover{
+    color:black;
+}
+
+
+.container>.top
+{
+  /* background-color:grey; */
+  display:flex;
+  align-items:center;
+  flex-direction:row-reverse;
+  flex-grow:1;
+  justify-content:space-between
+}
+
+.top>#welcome-user{
+    
+    font-weight: bold;
+    font-size: 18;
+    margin-left: 15px;
+    text-decoration: underline;
+}
+
+.container>.center
+{
+    width: 100%;
+    display:flex;
+    flex-direction:column;
+    /* justify-content:center; */
+    justify-content: space-between;
+    align-items:center;
+    flex-grow:8;
+    /* background-color: grey */
+}
+
+.container>footer{
+    display:flex;
+  align-items:center;
+    flex-direction:row-reverse;
+    flex-grow:1;
+}
+
+/* FOR TITLE AND SUB-TITLE */
+.heading{
+    width: 100%;
+    text-align:center;
+    margin: auto;
+}
+
+.heading>h1{
+    font-size: 36px;
+    
+}
+.heading>p{
+    margin-top: 5px;
+    font-style: italic;
+}
+
+
+
+/* NAVIGATION  */
+
+.nav{
+    padding:0;
+    display:flex;
+}
+
+.nav>a{
+    font-size: 24px;
+    display: inline-block;
+    text-decoration: none;
+    padding: 10px;
+}
+
+#searchLink{
+    border-right: 2px solid #4A4A4A;
+}
+
+.nav>a.activeLink{
+    text-decoration: underline;
+}
+
+.nav a.hoveredLink{
+    text-decoration: underline;
+}
+
+/* END OF NAVIGATION STYLE */
+
+
+/* SEARCH FIELD CONTAINER */
+
+.center > .body{
+    width: 100%;
+    height: 100%;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.search-container{
+    width: 50%;
+    align-self: center;
+    position: relative;
+    margin-bottom: 25px;
+    
+}
+
+input.search_button
+{
+    background-image: url(../images/search_icon.png);
+    background-repeat: no-repeat;
+    background-color: transparent;
+
+    border:none;
+    outline-color: #4A4A4A;
+    /* outline: 5px; */
+    width: 26px;
+    height: 27px;
+
+    transition: all 0.5s ease;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+   
+}
+
+
+#searchField{
+
+    outline: none;
+    border: 1px solid #dddddd;
+    border-radius:20px;
+    box-shadow: 0;
+
+    width: 100%;
+    height: 50px;
+    text-align:center;
+    font-size:24px;
+    
+}
+
+#searchField:focus{
+    border: 1px solid black;
+    
+}
+
+/* WHEN searchfield is focus, style search icon */
+#searchField:required:valid + input.search_button{
+    transition: all 0.5s ease;
+    right: -35px;
+
+}
+
+#searchField:required:valid + input.search_button:hover{
+    cursor: pointer;
+}
+
+/* END OF NAVIGATION STYLE */
+
+
+/* RESULT CONTAINER */
+
+
+.result-container{
+
+    transition: all 1s ease;
+    align-self: center;
+    border: 1px solid black;
+    width: 50%;
+    max-width: 75%;
+    max-height: 75%;
+    padding: 15px;
+
+    overflow: auto;
+    
+}
+
+.toggle-save-word-button-container{
+    position: absolute;
+    margin-top: 10px;
+    margin-left:10px;
+}
+
+
+
+.toggle-save-word-button{
+    display: flex;
+    border: 1px solid #4A4A4A;
+    justify-content: center;
+    align-items: center;
+    outline: none;
+    border-radius: 20px;
+    box-shadow: none;
+    height: 35px;
+}
+
+.save-word-button:hover{
+    cursor: pointer;
+}
+
+
+
+
+
+.result-container::-webkit-scrollbar-track
+{
+    /* -webkit-box-shadow: inset 0 0 2px rgba(0,0,0,0.3); */
+    box-shadow: inset 0 0 2px rgba(0,0,0,0.3);
+	border-radius: 1px;
+	background-color: white
+}
+
+.result-container::-webkit-scrollbar
+{
+	width: 5px;
+	background-color: white;
+}
+
+.result-container::-webkit-scrollbar-thumb
+{
+	border-radius: 30px;
+	/* -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3); */
+	background-color:#4A4A4A;
+}
+
+
+.result-content{
+    text-align: center;
+    overflow: auto;
+    overflow-x: hidden;
+}
+
+/* END OF RESULT CONTAINER STYLE */
+
+
+
+/* MODAL */
+
+.modal-overlay{
+    z-index: 50;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+}
+
+
+
+.display-modal {
+    /* center modal */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    background: white;
+    box-shadow: 0 0 60px 10px rgba(0, 0, 0, 0.9);
+
+    /* when browswer size changes */
+    width: 400px;
+    max-width: 100%;
+
+    /* for when content changes */
+    height: 600px;
+    max-height: 100%;
+
+    z-index: 100;
+    display: flex;
+}
+
+
+
+
+.display-modal .close-button {
+    position: absolute;
+    /* don't need to go crazy with z-index here, just sits over .modal-guts */
+    z-index: 1;
+    top: 5px;
+    /* needs to look OK with or without scrollbar */
+    right: 5px;
+    border: 0;
+    /* color: black; */
+    /* padding: 5px 10px; */
+    font-size: 1.5rem;
+    background: none;
+}
+
+.display-modal>.close-button:hover{
+    cursor: pointer;
+}
+
+.modal-container {
+    /* cover the modal */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  
+    /* spacing as needed */
+    /* padding: 20px 50px 20px 20px; */
+  
+    /* let it scroll */
+    /* overflow: auto; */
+    text-align: center;
+
+    display: flex;
+    flex-direction: column;
+
+}
+
+.modal-container>.header{
+    margin-top: 35px;
+    flex-grow: 1;
+}
+
+.modal-container>.body{
+    flex-grow: 9;
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.modal-container  form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 80%;
+
+    justify-content: space-evenly;
+}
+
+
+.modal-container form input{
+    width: 60%;
+    margin: 10px;
+
+    outline: none;
+    border: 1px solid #4A4A4A;;
+    padding: 15px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.modal-container button{
+    
+    width: 60%;
+    height: 15%;
+    outline: none;
+    border: 1px solid #dddddd;
+    border-radius:30px;
+
+    font-size: 18px;
+    background: black;
+    color: white;
+}
+
+.modal-container button:hover{
+    cursor: pointer;
+    background: #4A4A4A;
+}
+
+.modal-container  a {
+    font-size: 14px;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+
+.modal-container .password-group input{
+    /* top&bottom px left&right px */
+    margin: 0px 10px;
+}
+
+.password-group{
+    margin-bottom: 10px;
+}
+
+
+#login-link{
+    margin-top:10px;
+}
+
+/* END OF MODAL STYLE */
+
+
+
+/*  
+toggle to hide */
+.closed {
+    display: none;
+  }
+
+
+.load-wrapp{
+    position: absolute;
+    top: 10px;
+    right: -80px;
+  }
+
+  .line {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 10px;
+    background-color: #4A4A4A;
+}
+
+.load-3 .line:nth-last-child(1) {animation: loadingC .6s .1s linear infinite;}
+.load-3 .line:nth-last-child(2) {animation: loadingC .6s .2s linear infinite;}
+.load-3 .line:nth-last-child(3) {animation: loadingC .6s .3s linear infinite;}
+
+
+@keyframes loadingC 
+{
+    0% {transform: translate(0,0);}
+    50% {transform: translate(0,15px);}
+    100% {transform: translate(0,0);}
+};
+
+

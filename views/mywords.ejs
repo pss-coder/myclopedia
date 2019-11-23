@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <!-- CUSTOM JS -->
+  <script src="js/mywords.js"></script>
+
+  <!--Custom Font  -->
+  <link href="https://fonts.googleapis.com/css?family=Roboto+Mono:400,400i&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/mywords.css">
+
+    <title>My Words</title>
+</head>
+<body>
+    
+
+    <div class="container">
+        <div class="top">
+                 <% if(user){ %>
+                    <form action="/auth/logout" method="POST">
+                      <button class="open-login-modal-button">Logout</button>
+                    </form>
+                   <p id="welcome-user">
+                      Hello <%=user.fullname%>
+                  </p>
+                  <%}else{%>
+                    <button class="open-login-modal-button" id="open-login-modal-button">Login</button>
+                  <%}%>
+
+        </div>
+        <div class="center">
+                <div class="heading">
+                        <h1>Myclopedia Saved Words</h1>
+                        <p>Reference back to words you've learned.</p>
+                </div>
+                <div class="body">
+                                
+                        <div id="result-container" class="container">
+
+                        <%if(saved_words){%>
+                                
+                                <%for (let h = 0; h < saved_words.length; h++) { %>
+                                
+                                <div class="word-definition">
+                                    <button class="accordion"><%=saved_words[h].wordSearched%></button>
+                                    <div class="panel">
+                                        <div class="remove-word-container">
+                                                <button class="remove-word-btn" onclick="removeWord('<%=saved_words[h].wordSearched%>','<%=h%>')">
+                                                        <i class="material-icons" id="toggle-save-word-image">
+                                                                remove
+                                                                </i>
+                                                </button>
+                                        </div>
+                                        <%for (let i = 0; i < saved_words[h].word.length; i++) {%>
+                                                <p>POS: <%=saved_words[h].word[i].pos%></p>
+                                    
+                                                <h3>Definitions:</h3>
+                                                <%for (let j = 0; j < saved_words[h].word[i].definitions.length; j++) {%>
+                                                    <p><%=saved_words[h].word[i].definitions[j]%></p>
+                                                <%}%>
+                                    
+                                                <h3>Examples:</h3>
+                                                <%for (let j = 0; j < saved_words[h].word[i].examples.length; j++) {%>
+                                                    <p><%=saved_words[h].word[i].examples[j]%></p>
+                                                <%}%>
+                                    
+                                        <%}%>
+                                    </div>
+                            </div> 
+                            <%}%>
+                            
+                        <%}%>
+
+                        </div>
+                        
+                </div>
+                <div class="nav">
+                        <a id="searchLink"  href="/">Search</a>
+                        <a id="myWordsLink" class="activeLink"  href="/mywords">My Words</a>  
+                </div>
+        </div>
+        <footer>
+                <a href="/about">About Page</a>
+        </footer>
+        
+    </div>
+
+
+
+    
+</body>
+</html>

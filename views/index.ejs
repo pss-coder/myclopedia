@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <!-- FONTS -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono:400,400i&display=swap" rel="stylesheet">
+    <!-- ICONS -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+
+    <!-- INDEX CSS -->
+    <link rel="stylesheet" href="css/index.css">
+
+    <!-- INDEX JS -->
+    <script src="js/index.js"></script>
+
+
+    <title>Myclopedia</title>
+</head>
+<body>
+
+  <div class="container">
+
+        <div class="top">
+           
+      
+          <% if(user){ %>
+            <form action="/auth/logout" method="POST">
+              <button class="open-login-modal-button">Logout</button>
+            </form>
+          <p id="welcome-user">
+              Hello <%=user.fullname%>
+          </p>
+          <%}else{%>
+            <button class="open-login-modal-button" id="open-login-modal-button">Login</button>  
+          <%}%>
+          
+        </div>
+          
+        <div class="center">
+      
+          <div class="heading">
+              <p>
+                Can't remember what words you've learned? Search through Myclopedia and save it for future reference.
+              </p>
+              <h1>
+               Welcome to Myclopedia
+              </h1>
+              <p>
+               Your one-stop destination to learn new words and save it as your own words of encyclopedia
+              </p>
+          </div>
+          
+          <div class="body">
+      
+            <div class="search-container">
+      
+                <form id="search-word-form">
+                  <input autocomplete="off" id="searchField" type="text" required>
+                  <input id="search_button" class="search_button" type="submit" value="">
+                </form>
+                <!-- LOADING ANIMATION -->
+                <div id="loader" class="load-wrapp closed">
+                <div class="load-3">
+                    <div class="line"></div>
+                    <div class="line"></div>
+                    <div class="line"></div>
+                </div>
+                </div>
+      
+            </div>
+      
+            <!-- toggle closed initially -->
+            <!-- TODO: TO add .close  -->
+            <div id="result-container" class="closed result-container">
+              
+              <div class="toggle-save-word-button-container">
+                <button class="toggle-save-word-button" id="toggle-save-word-button">
+                  <!-- TODO: ADD A PROPER PLUS ICON AND IMPROVE UI -->
+                  <!-- <img src="/images/plus_icon.png" id="toggle-save-word-image"> -->
+                  <i class="material-icons" id="toggle-save-word-image">
+                        add
+                        </i>
+                </button>
+              </div>
+      
+              <!-- TODO: IMPROVE DISPLAY -->
+              <!-- result shown here -->
+              <div class="result-content" id="search-result">
+
+              </div>
+
+            </div>
+            
+          </div>
+          
+          <div class="nav">
+              <a id="searchLink" class="activeLink" href="/">Search</a>
+               <% if(user){ %>
+                <a id="myWordsLink"  href="/mywords">My Words</a>  
+               <%}else{%>
+                <a id="myWordsLink"  href="#" onclick="alert('Login/Create Account To Access My Words')">My Words</a>
+              <%}%>
+              
+          </div>
+
+        </div>
+          
+        <footer>
+          <a href="/about">About Page</a>
+        </footer>
+        
+      </div>
+
+      <!-- MODAL OVERLAY BACKGROUND -->
+      <div class="modal-overlay closed" id="modal-overlay"></div>
+
+      <!--MODAL CONTAINER  -->
+      <div id="display-modal" class="display-modal closed">
+        <button class="close-button" id="close-button">X</button>
+    
+    
+        <!-- LOGIN CONTAINER -->
+        <div id="login-modal" class=" closed modal-container">
+
+          <div class="header">
+            <h2>Login</h2>
+            <p>Login to save and access your saved words.</p>
+          </div>
+
+          <div class="body">
+            <form id="login-form" action="/auth/login" method="POST" >
+                <div class="form-inputs">
+                    <input  type="email" placeholder="Email" name="email">
+                    <input  type="password" placeholder="Password" name="password">
+                </div>
+                <a href="#">Forgot your password?</a>
+                <button type="submit">Login</button>
+            </form>
+            <a id="signup-link">No Account? Sign Up</a>
+          </div>
+
+        </div>
+
+        <!-- SIGN UP Container -->
+        <div id="sign-up-modal" class="closed modal-container">
+
+          <div class="header">
+            <h2>Register</h2>
+            <p>Access to saved words across all platforms.</p>
+          </div>
+
+          <div class="body">
+            <form id="signup-form" action="/auth/signup" method="POST">
+                <input placeholder="Email" type="email" name="email">
+                <input placeholder="Username" type="text" name="username">
+                <div class="password-group">
+                    <input placeholder="Password" type="password" name="password">
+                    <input placeholder="Confirm Password" type="password" name="confirm_password">
+                </div>
+                <button type="submit">Register</button>
+            </form>
+            <a id="login-link">Already have an account? Login Here</a>
+          </div>
+
+        </div>
+
+  </div>
+    
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Myclopedia</title>
+</head>
+<body>
+    
+    <h2>Search Form</h2>
+    <form action="/search" method="POST">
+        <input type="text" name="input">
+        <button type="submit">SEARCH</button>
+    </form>
+
+    <h2>Login Form</h2>
+    <form action="/auth/login" method="POST">
+        <input type="email" name="email">
+        <input type="password" name="password">
+        <button type="submit">Login</button>
+    </form>
+
+    <h2>Signup Form</h2>
+    <form action="/auth/signup" method="POST">
+        <input type="email" name="email" placeholder="email">
+        <input type="text" name="username" placeholder="username">
+        <input type="password" name="password" placeholder="password">
+        <button type="submit">Sign up</button>
+    </form>
+
+    <h2>Logout Form</h2>
+    <form action="/auth/logout" method="POST">
+        <button type="submit">Logout</button>
+    </form>
+
+    <h2>Save Word Form</h2>
+    <form action="/saveword" method="POST">
+        <button type="submit">Save Word</button>
+    </form>
+
+    <h2>Display Saved Words</h2>
+    <form action="/displaysavedwords" method="POST">
+        <button type="submit">Display Saved Word</button>
+    </form>
+
+    
+    <%if(saved_words){%>
+        <h2>My Saved Words</h2>
+
+        <%for (let h = 0; h < saved_words.length; h++) { %>
+            <h1>Word searched: <%=saved_words[h].wordSearched%></h1>
+
+            <%for (let i = 0; i < saved_words[h].word.length; i++) {%>
+            <p>POS: <%=saved_words[h].word[i].pos%></p>
+
+            <h3>Definitions:</h3>
+            <%for (let j = 0; j < saved_words[h].word[i].definitions.length; j++) {%>
+                <p><%=saved_words[h].word[i].definitions[j]%></p>
+            <%}%>
+
+            <h3>Examples:</h3>
+            <%for (let j = 0; j < saved_words[h].word[i].examples.length; j++) {%>
+                <p><%=saved_words[h].word[i].examples[j]%></p>
+            <%}%>
+
+            <%}%>
+            <p>======================</p>
+            <br>
+
+        <%}%>
+
+
+    <%}%>
+
+
+    <%if(searchResult){%>
+
+        <%if(!(wordExists == undefined)){%>
+            <h1>WORD EXISTS IN USER_WORD DB: <%=wordExists%></h1>
+        <%}%>
+
+
+        <%for (let h = 0; h < searchResult.length; h++) { %>
+            
+            <h1>Word searched: <%=searchResult[h].wordSearched%> - <%=searchResult[h].pos%></h1>
+            <h3>Definitions:</h3>
+            <%for (let i = 0; i < searchResult[h].definitions.length; i++) {%>
+                <p><%=searchResult[h].definitions[i]%></p>
+            <%}%>
+            <h3>Examples:</h3>
+            <%for (let i = 0; i < searchResult[h].examples.length; i++) {%>
+                <p><%=searchResult[h].examples[i]%></p>
+            <%}%>
+
+            <p>======================</p>
+            <br>
+
+        <%}%>
+
+
+    <%}%>
+
+</body>
+</html>
