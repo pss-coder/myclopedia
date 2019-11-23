@@ -1,13 +1,10 @@
 {
   "name": "myclopedia-web-v2",
   "version": "1.0.0",
-  "engines": {
-    "node":"8.4.0"
-  },
   "description": "Myclopedia, Your Personalised Dictionary Web App",
   "main": "app.js",
   "dependencies": {
-    "bcrypt": "^1.0.3",
+    "bcrypt": "^3.0.7",
     "body-parser": "^1.19.0",
     "connect-mongo": "^3.1.2",
     "ejs": "^2.7.4",
