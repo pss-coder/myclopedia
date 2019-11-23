@@ -3,9 +3,8 @@
   "version": "1.0.0",
   "engines": {
     "node": "13.2.0",
-    "npm":"6.13.1"
+    "npm": "6.13.1"
   },
-
   "description": "Myclopedia, Your Personalised Dictionary Web App",
   "main": "app.js",
   "dependencies": {
