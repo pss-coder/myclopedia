@@ -23,7 +23,6 @@ var UserWordsSchema = new mongoose.Schema({
  * @param {String} wordToCheck 
  * @param {(error,isWordSaved:Boolean)} callback 
  */
-//TODO: check if word is saved 
 function validateIsWordSaved(email,wordToCheck,callback){
     UserWords.findOne({
         email:email
@@ -42,7 +41,6 @@ function validateIsWordSaved(email,wordToCheck,callback){
     })
 }
 
-//TODO:IMPROVE CALLBACK CODE
 /**
  * based on user_words acoount, will save/remove word 
  * @param {*} wordSearched - word user searched for

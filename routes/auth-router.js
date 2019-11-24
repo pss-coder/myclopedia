@@ -3,7 +3,6 @@ var router = express.Router();
 var User = require('../models/user');
 var UserWords = require('../models/user_words');
 
-//TODO: SEND RESPONSE TO CLIENT
 router.post('/signup',function (req,res,next){
 
     var user = new User();
@@ -17,7 +16,7 @@ router.post('/signup',function (req,res,next){
         if(!userExists){ //if user does not Exists , can create account else 
             user.save(function(err,user){
                 if(err){
-                    console.log('ERROR:', err);
+                    res.json({error:true});
                 
                 }
                 else{
@@ -28,25 +27,28 @@ router.post('/signup',function (req,res,next){
                         email:user.email
                     }
 
+                    //TODO: FIND A WAY TO BE ABLE TO ADD WORDS BASED ON EMAIL
+                    // WITHOUTH FIRST TIME SIGNING UP
                     //create document in user_words collection based on user email 
                     var uw = new UserWords();
                     uw.email = req.session.user.email;
                     //for every account made , create a entry in UserWords 
                     uw.save(function (err,uw){
                         if(err){
-                            console.log(`error creating document in user_words collection for email: ${req.session.user.email}  `);
+                            // console.log(`error creating document in user_words collection for email: ${req.session.user.email}  `);
+                            res.json({auth:true});
                         }
                         else{
-                            console.log(`document created in user_words collection for email: ${req.session.user.email}`);
-                            res.redirect('/');
+                            // console.log(`document created in user_words collection for email: ${req.session.user.email}`);
+                            res.json({auth:true});
                         }
                     })
                 }
             })
         }
         else{ // userexists 
-            console.log('Email already exists ! ')
-            res.redirect('/');
+            // console.log('Email already exists ! ')
+            res.json({auth:false});
         }
       })
 
@@ -62,13 +64,11 @@ router.post('/login',function(req,res,next){
         let password = req.body.password;
 
         User.login(email,password,function(err,user){
-            if(err || !user){
+            if(err){
                 console.log('ERROR:', err);
-                let error = new Error('Wrong email or password.');
-                error.status = 401;
-                res.status(401).send('<h1>Error</h1>' + `${error.message}` + '<br><a type="button" href="/">Go Back</a>');
+                res.json({auth:false});
             }
-            else{
+            else if(user){
                 
                 req.session.user = {
                     id:user._id,
@@ -76,8 +76,10 @@ router.post('/login',function(req,res,next){
                     email:user.email
                 }
                 console.log('session user is : ', req.session.user);
-                //res.status(200).json({username:username});
-                res.redirect('/');
+                res.json({auth:true});
+            }
+            else{
+                res.json({auth:false})
             }
           });
     }
@@ -85,7 +87,6 @@ router.post('/login',function(req,res,next){
 
 // /auth/logout
 router.post('/logout',function (req,res,next){
-    //TODO: LOGOUT IMPLEMENTATION
     const sessionUser = req.session.user;
     if(sessionUser){
 

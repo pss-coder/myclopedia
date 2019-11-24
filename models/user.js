@@ -1,7 +1,5 @@
 //User model
 var mongoose = require('mongoose');
-//npm install -save bcrypt@1.0.3
-//TODO: FIX TO ALLOW LATEST VERSION -- done
 var bcrypt = require('bcryptjs');
 
 
@@ -54,15 +52,15 @@ function hashPassword(next){
      .exec(function (err,user){
          if(err){return loginCallback(err,null)}
          else if(!user){ // no user
-            var err = new Error('User not found.');
-            err.status = 401;
             return loginCallback(err,null);
          }
-         //compare the password in db and user entered using bcrypt
+         else{
+            //compare the password in db and user entered using bcrypt
          bcrypt.compare(password,user.password,function (err,result) {
-             if (result){return loginCallback(null,user);}//return user 
-             else{return loginCallback()}
-           })
+            if (result){return loginCallback(null,user);}//return user 
+            else{return loginCallback(err,null)}
+          })
+         }
        })
 }
 

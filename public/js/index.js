@@ -3,95 +3,101 @@ window.onload = function(){
     navigationBarUnderlineEffect()
     authenticationModelListeners();
     
-    signupFormValidation();
+    //Form handlers
+    this.document.getElementById('login-form').addEventListener('submit',loginFormHandler);
+    this.document.getElementById('signup-form').addEventListener('submit',signupFormHandler)
 
-    document.getElementById('search-word-form').addEventListener('submit',searchFormHandler);
-
-    document.getElementById('toggle-save-word-button').addEventListener('click',toggleSavingRemovingWord);
+    //search word handlers
+    this.document.getElementById('search-word-form').addEventListener('submit',searchFormHandler);
+    this.document.getElementById('toggle-save-word-button').addEventListener('click',toggleSavingRemovingWord);
     ;
 
 }
 
-function navigationBarUnderlineEffect(){
+//TODO:CLEAR FIELD 
+function signupFormHandler(event){
+    event.preventDefault();
 
-    var searchLink = document.getElementById('searchLink');
-    var myWordsLink = document.getElementById('myWordsLink');
+    const  email = event.target.email.value;
+    const username = event.target.username.value;
+    const password = event.target.password.value;
+    const confirm_password = event.target.confirm_password.value;
 
-    myWordsLink.addEventListener('mouseover',function () {
-        searchLink.classList.remove('activeLink');
-        myWordsLink.classList.add('hoveredLink');
-    })
-
-    searchLink.addEventListener('mouseover',function () {
-        searchLink.classList.add('activeLink');
-        myWordsLink.classList.remove('hoveredLink');
-    })
-
-    myWordsLink.addEventListener('mouseout',function () {
-        myWordsLink.classList.remove('hoveredLink');
-         searchLink.classList.add('activeLink');
-    })
-
-    searchLink.addEventListener('mouseout',function () {
-        searchLink.classList.add('activeLink');
-        myWordsLink.classList.remove('hoveredLink');
-    })
-
-}
-
-
-function authenticationModelListeners(){ 
-
-    const modal = document.getElementById("display-modal");
-    const modalOverlay = document.getElementById("modal-overlay");
-    const closeButton = document.getElementById("close-button");
-    const loginButton = document.getElementById('open-login-modal-button');
-    
-    if(loginButton){
-        closeButton.addEventListener("click", function() {
-            modal.classList.toggle("closed");
-            modalOverlay.classList.toggle("closed");
-        });
-    
-        loginButton.addEventListener("click",function(){
-            modal.classList.toggle("closed");
-            modalOverlay.classList.toggle("closed");
-        
-            document.getElementById('login-modal').style.display = 'flex';
-            document.getElementById('sign-up-modal').style.display = 'none';
-        })
-        
-        //add listeners to toggle between login and sign-up modals
-        document.getElementById('signup-link').addEventListener('click',function(){
-            document.getElementById('login-modal').style.display = 'none';
-            document.getElementById('sign-up-modal').style.display = 'flex';
-        })
-    
-        document.getElementById('login-link').addEventListener('click',function(){
-            document.getElementById('login-modal').style.display = 'flex';
-            document.getElementById('sign-up-modal').style.display = 'none';
-        })
+    if(!(password == confirm_password)){
+        alert('Passwords do not match');
+        event.reset();
+        return;
     }
+
+    let form = {
+        email:email,
+        username:username,
+        password:password
+    }
+
+    fetch('/auth/signup',{
+        method:'POST',
+        headers:{
+            'Content-Type':'application/json'
+        },
+        body:JSON.stringify(form)
+    })
+    .then((res)=> {if(res.ok){return res.json()}})
+    .then((data)=> {
+        const auth = data.auth;
+        const error = data.error;
+        console.log(auth);
+
+        if(error && error == true){
+            alert('Error signing up. Please try again.')
+            return;
+        }
+        
+            if(auth == false){
+                alert('Signup Failed. Email may already exists');
+            }
+            else if(auth == true){
+                location.reload(true);
+            }
+    })
+    .catch(err => {
+        console.log('Error Message: ', err);
+    })
+    
 }
 
+function loginFormHandler(event){
+    event.preventDefault();
 
+    var email = event.target.email.value;
+    var password = event.target.password.value;
 
-function signupFormValidation(){
+    let form = {
+        email:email,
+        password:password
+    }
 
-    const signupForm = document.getElementById('signup-form');
-    signupForm.addEventListener('submit',function (event){
-        const password = event.target.password.value;
-        const confirm_password = event.target.confirm_password.value;
-
-        if(!(password==confirm_password)){
-            // TODO: CLEAR ALL FIELDS 
-            alert('PASSWORDS DO NOT MATCH');
-            event.preventDefault();
+    fetch('/auth/login',{
+        method:'POST',
+        headers:{
+            'Content-Type':'application/json'
+        },
+        body:JSON.stringify(form)
+    })
+    .then((res)=> {if(res.ok){return res.json()}})
+    .then((data)=> {
+        const auth = data.auth;
+        console.log(auth);
+        if(auth == false){
+            alert('Login Failed. Please try again.')
         }
-
-      },false)
-
-
+        else if(auth == true){
+            location.reload(true);
+        }
+    })
+    .catch(err => {
+        console.log('Error Message: ', err);
+    })
 
 }
 
@@ -174,13 +180,8 @@ function searchFormHandler(event){
             if(resultContainer.classList.contains('closed')){
                 resultContainer.classList.toggle('closed');
             }
-
-
         }
-
         toggleSearchingAnimation();
-
-
     })
     .catch(err => {
         alert('ERROR SEARCHING.PLEASE TRY AGAIN.');
@@ -191,12 +192,7 @@ function searchFormHandler(event){
 
 }
 
-function toggleSearchingAnimation(){ 
-    const searchBtn = document.getElementById('search_button');
-    const loader = document.getElementById('loader');
-    searchBtn.classList.toggle('closed');
-    loader.classList.toggle('closed');
-}
+
 
 
 function toggleSavingRemovingWord(){
@@ -204,8 +200,7 @@ function toggleSavingRemovingWord(){
 
     var toSave = false;
 
-    // how to know if is toSave is true or false 
-    //based on searching word,
+    //based on icon, we can determine whether to add/remove word from user words
     const saveWordImageText = document.getElementById('toggle-save-word-image').innerHTML;
     console.log('icon when submitting form : ' + saveWordImageText);
     if(saveWordImageText == 'add'){
@@ -253,13 +248,75 @@ function toggleSavingRemovingWord(){
 
 }
 
-function toggleSaveWordImageHandler(){ 
-    const toggleSaveWordImage = document.getElementById('toggle-save-word-image');
-    if(toggleSaveWordImage.innerHTML == 'add'){
-        toggleSaveWordImage.innerHTML = 'remove'
-    }
-    else{
-        toggleSaveWordImage.innerHTML = 'add'
-    }
+
+
+//functions for UI purposes
+
+function navigationBarUnderlineEffect(){
+
+    var searchLink = document.getElementById('searchLink');
+    var myWordsLink = document.getElementById('myWordsLink');
+
+    myWordsLink.addEventListener('mouseover',function () {
+        searchLink.classList.remove('activeLink');
+        myWordsLink.classList.add('hoveredLink');
+    })
+
+    searchLink.addEventListener('mouseover',function () {
+        searchLink.classList.add('activeLink');
+        myWordsLink.classList.remove('hoveredLink');
+    })
+
+    myWordsLink.addEventListener('mouseout',function () {
+        myWordsLink.classList.remove('hoveredLink');
+         searchLink.classList.add('activeLink');
+    })
+
+    searchLink.addEventListener('mouseout',function () {
+        searchLink.classList.add('activeLink');
+        myWordsLink.classList.remove('hoveredLink');
+    })
+
+}
+
+function toggleSearchingAnimation(){ 
+    const searchBtn = document.getElementById('search_button');
+    const loader = document.getElementById('loader');
+    searchBtn.classList.toggle('closed');
+    loader.classList.toggle('closed');
+}
+
+
+function authenticationModelListeners(){ 
+
+    const modal = document.getElementById("display-modal");
+    const modalOverlay = document.getElementById("modal-overlay");
+    const closeButton = document.getElementById("close-button");
+    const loginButton = document.getElementById('open-login-modal-button');
     
+    if(loginButton){
+        closeButton.addEventListener("click", function() {
+            modal.classList.toggle("closed");
+            modalOverlay.classList.toggle("closed");
+        });
+    
+        loginButton.addEventListener("click",function(){
+            modal.classList.toggle("closed");
+            modalOverlay.classList.toggle("closed");
+        
+            document.getElementById('login-modal').style.display = 'flex';
+            document.getElementById('sign-up-modal').style.display = 'none';
+        })
+        
+        //add listeners to toggle between login and sign-up modals
+        document.getElementById('signup-link').addEventListener('click',function(){
+            document.getElementById('login-modal').style.display = 'none';
+            document.getElementById('sign-up-modal').style.display = 'flex';
+        })
+    
+        document.getElementById('login-link').addEventListener('click',function(){
+            document.getElementById('login-modal').style.display = 'flex';
+            document.getElementById('sign-up-modal').style.display = 'none';
+        })
+    }
 }
