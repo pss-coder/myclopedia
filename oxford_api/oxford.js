@@ -4,10 +4,11 @@ String.prototype.capitalize = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
 }
 
-const endpoint = `https://od-api.oxforddictionaries.com/api/v2/entries/en-us/`;
+// Deprecated API AND KEYS
+const endpoint = ``;
 const headers = {
-        app_key: '8f61947115339cb08209f97f9760ffe2',
-        app_id: '39b26482'
+        app_key: '',
+        app_id: ''
 };
 
 /**
